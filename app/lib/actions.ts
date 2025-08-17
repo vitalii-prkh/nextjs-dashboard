@@ -90,7 +90,9 @@ export async function updateInvoice(id: string, prevState: State, formData: Form
   try {
     await sql`UPDATE invoices SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status} WHERE id = ${id}`;
   } catch (error) {
-    return { message: 'Database Error: Failed to Update Invoice.' };
+    return {
+      message: 'Database Error: Failed to Update Invoice.'
+    };
   }
 
   revalidatePath('/dashboard/invoices');
@@ -98,7 +100,11 @@ export async function updateInvoice(id: string, prevState: State, formData: Form
 }
 
 export async function deleteInvoice(id: string) {
-  await sql`DELETE FROM invoices WHERE id = ${id}`;
+  try {
+    await sql`DELETE FROM invoices WHERE id = ${id}`;
+  } catch (error) {
+    console.error(error);
+  }
 
   revalidatePath('/dashboard/invoices');
 }
