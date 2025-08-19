@@ -1,11 +1,12 @@
-import Pagination from '@/app/ui/invoices/pagination';
-import Search from '@/app/ui/search';
-import Table from '@/app/ui/invoices/table';
-import {CreateInvoice} from '@/app/ui/invoices/buttons';
-import {lusitana} from '@/app/ui/fonts';
-import {InvoicesTableSkeleton} from '@/app/ui/skeletons';
-import {Suspense} from 'react';
+import React from 'react';
+import {Metadata} from 'next';
 import {fetchInvoicesPages} from '@/app/lib/data';
+import {lusitana} from '@/app/ui/fonts';
+import Search from '@/app/ui/search';
+import {InvoicesTableSkeleton} from '@/app/ui/skeletons';
+import Pagination from '@/app/ui/invoices/pagination';
+import {CreateInvoice} from '@/app/ui/invoices/buttons';
+import Table from '@/app/ui/invoices/table';
 
 type PageProps = {
   searchParams?: Promise<SearchParams>;
@@ -15,6 +16,10 @@ type SearchParams = {
   query?: string;
   page?: string;
 }
+
+export const metadata: Metadata = {
+  title: 'Invoices',
+};
 
 export default async function Page(props: PageProps) {
   const searchParams = await props.searchParams;
@@ -31,9 +36,9 @@ export default async function Page(props: PageProps) {
         <Search placeholder="Search invoices..."/>
         <CreateInvoice/>
       </div>
-      <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton/>}>
+      <React.Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton/>}>
         <Table query={query} currentPage={currentPage}/>
-      </Suspense>
+      </React.Suspense>
       <div className="mt-5 flex w-full justify-center">
         <Pagination totalPages={totalPages}/>
       </div>
