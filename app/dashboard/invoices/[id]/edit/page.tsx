@@ -1,11 +1,16 @@
+import {Metadata} from 'next';
+import {notFound} from 'next/navigation';
+import {fetchInvoiceById, fetchCustomers} from '@/app/lib/data';
 import Form from '@/app/ui/invoices/edit-form';
 import Breadcrumbs from '@/app/ui/invoices/breadcrumbs';
-import {fetchInvoiceById, fetchCustomers} from '@/app/lib/data';
-import {notFound} from 'next/navigation';
 
 type PageProps = {
   params: Promise<{ id: string }>
 }
+
+export const metadata: Metadata = {
+  title: 'Update Invoice',
+};
 
 export default async function Page(props: PageProps) {
   const params = await props.params;
